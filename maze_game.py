@@ -1,3 +1,6 @@
+"""
+maze game: find the target in a 3-dimensional maze (green wall as the target)
+"""
 from math import *
 from random import randint,uniform,choice
 import pygame as pg
@@ -85,6 +88,7 @@ while run:
             run=False
         if i.type == pg.KEYDOWN:
             if i.key == pg.K_SPACE:
+                # places a marker to mark a spot you have already searched.
                 fx,fy=TS*sin(a)+px,TS*cos(a)+py
                 if get_wall(fx,fy,TS,MAP)==0:
                     MAP[int(fy/TS)][int(fx/TS)]=3
@@ -94,7 +98,7 @@ while run:
     win.fill((0,0,0))
 
     u,d,l,r=pg.key.get_pressed()[pg.K_UP],pg.key.get_pressed()[pg.K_DOWN],pg.key.get_pressed()[pg.K_LEFT],pg.key.get_pressed()[pg.K_RIGHT]
-    if u and get_wall(px+sin(a)*ps,py+cos(a)*ps,TS,MAP)!=1:
+    if u and get_wall(px+sin(a)*ps,py+cos(a)*ps,TS,MAP)!=1: # avoid clipping through walls by checking if the player's change in position will intercept the wall 
         px+=sin(a)*ps
         py+=cos(a)*ps
     elif get_wall(px,py,TS,MAP)==2:
@@ -135,11 +139,11 @@ while run:
                 y2=wh
                 color=lambda x: x-x*(d/rend)
                 if wall==1:
-                    pg.draw.rect(win,(color(255),color(155),color(155)),[x1,y1,x2,y2])
+                    pg.draw.rect(win,(color(255),color(155),color(155)),[x1,y1,x2,y2]) # maze walls
                 elif wall==2:
-                    pg.draw.rect(win,(color(155),color(255),color(155)),[x1,y1,x2,y2])
+                    pg.draw.rect(win,(color(155),color(255),color(155)),[x1,y1,x2,y2]) # target
                 elif wall==3:
-                    pg.draw.rect(win,(color(155),color(155),color(255)),[x1,y1,x2,y2])
+                    pg.draw.rect(win,(color(155),color(155),color(255)),[x1,y1,x2,y2]) # marked spots
 
                 break
 
